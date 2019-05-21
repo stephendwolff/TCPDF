@@ -7548,6 +7548,7 @@ class TCPDF {
 	public function Output($name='doc.pdf', $dest='I') {
 		//Output PDF to some destination
 		//Finish document if necessary
+		
 		if ($this->state < 3) {
 			$this->Close();
 		}
@@ -7733,6 +7734,7 @@ class TCPDF {
 				$this->Error('Incorrect output destination: '.$dest);
 			}
 		}
+		
 		return '';
 	}
 
@@ -11499,6 +11501,13 @@ class TCPDF {
 	 * @see SetLineStyle()
 	 */
 	public function Rect($x, $y, $w, $h, $style='', $border_style=array(), $fill_color=array()) {
+		$border_style_temp=str_split($border_style);
+		$border_style=array();
+		foreach ($border_style_temp as $key => $val) {
+			$border_style[$val] = $val;		
+		}
+		
+		//print_r($border_style);
 		if ($this->state != 2) {
 			return;
 		}
@@ -11526,6 +11535,7 @@ class TCPDF {
 			$op = TCPDF_STATIC::getPathPaintOperator($style);
 			$this->_outRect($x, $y, $w, $h, $op);
 		}
+		//print_r($border_style);
 		if (!empty($border_style)) {
 			$border_style2 = array();
 			foreach ($border_style as $line => $value) {
@@ -11547,7 +11557,7 @@ class TCPDF {
 			if (isset($border_style['B']) AND $border_style['B']) {
 				$this->Line($x, $y + $h, $x + $w, $y + $h, $border_style['B']);
 			}
-		}
+		}//*/
 	}
 
 	/**
